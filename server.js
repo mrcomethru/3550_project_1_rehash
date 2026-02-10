@@ -50,16 +50,16 @@ app.post("/auth", (req, res) => {
         exp: Math.floor(key.expiry/1000)
     };
 
-    const token = jwt.sign(payload, key.privateKey, {
+    const token = JWT.sign(payload, key.privateKey, {
         algorithm: "RS256",
         keyid: key.kid,
     });
     res.json({token});
 });
-//listen for incoming connections via port 8080...
-app.listen(PORT, () => {
-    console.log('JWKS Server is now running on port 8080.');
-    console.log('Generating key pairs...');
-});
+
+if (require.main === module) {
+    console.log("JWKS Server is now running on port 8080");
+    console.log("Generating key pairs")
+}
 
 module.exports = app;
