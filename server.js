@@ -1,19 +1,65 @@
-const express = require('express')
+const express = require("express")
 const app = express();
-
-app.get('/well-known/jwks.json', (req, res) => {
-    
-})
+const PORT = 8080;
 
 const JWT = require("jsonwebtoken");
-
-const url = require('url');
-
-const keys = [];
-
+const { getValid, getExpired } = require ("./keygen");
 
 app.use(express.json());
+//JWKS endpoint to provide public keys that can be used to verify JWT signatures.
+//It will only return keys that are not expired.
+app.get("/.well-known/jwks.json", (req, res) => {
+    //Only retrieve keys that have not yet expired..
+    const validKeys = getValid();
 
+    const jwks = {
+        keys: validKeys.map((key) => {
+        //Export public key in JWK format
+        const jwk = key.publicKey.export({format: "jwk"});
 
-const port = 8080;
-app.get()
+        return {
+        kty: jwk.kty,
+        use: "sig",
+        alg: "RS256",
+        kid: key.kid,
+        n: jwk.n,
+        e: jwk.e,
+        };
+    })
+    };
+    res.json(jwks);
+});
+
+app.post("/auth", (req, res) => {
+    const wantExpired = req.query.expired === "true";
+
+    let pool;
+    if (wantExpired) {
+        pool = getExpired();
+    } else {
+        pool = getValid();
+    }
+    const key = pool[0];
+    if (!key) {
+        return res.status(500).json({error:"No key was found"});
+    }
+
+    const payload = {
+        user: "testAccount",
+        iat: Math.floor(Date.now()/1000),
+        exp: Math.floor(key.expiry/1000)
+    };
+
+    const token = jwt.sign(payload, key.privateKey, {
+        algorithm: "RS256",
+        keyid: key.kid,
+    });
+    res.json({token});
+});
+//listen for incoming connections via port 8080...
+app.listen(PORT, () => {
+    console.log('JWKS Server is now running on port 8080.');
+    console.log('Generating key pairs...');
+});
+
+module.exports = app;
