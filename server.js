@@ -7,9 +7,8 @@ const { getValid, getExpired } = require ("./keygen");
 
 app.use(express.json());
 //JWKS endpoint to provide public keys that can be used to verify JWT signatures.
-//It will only return keys that are not expired.
 app.get("/.well-known/jwks.json", (req, res) => {
-    //Only retrieve keys that have not yet expired..
+    //Only serve keys that haven't expired
     const validKeys = getValid();
 
     const jwks = {
@@ -58,8 +57,10 @@ app.post("/auth", (req, res) => {
 });
 
 if (require.main === module) {
+    app.listen(PORT, ()=> {
     console.log("JWKS Server is now running on port 8080");
     console.log("Generating key pairs")
+});
 }
 
 module.exports = app;

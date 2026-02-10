@@ -15,7 +15,7 @@ async function test() {
     
     //Attempt to get a valid token
     console.log("Test 2.) Get a valid JWT");
-    const reponse2 = await axios.post(`${URL}/auth`);
+    const response2 = await axios.post(`${URL}/auth`);
     console.log("Valid Token:", response2.data.token, "n")
 
     //Attempt to get an expired token
