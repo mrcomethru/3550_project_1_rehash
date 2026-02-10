@@ -30,7 +30,7 @@ async function test() {
         process.exit(1);
     }
 }
-
+//server init through test script listening on port 8080
 const server = app.listen(8080, ()=> {
     console.log("Test server running on port 8080\n");
     setTimeout(test, 300);

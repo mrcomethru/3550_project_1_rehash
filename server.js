@@ -26,9 +26,11 @@ app.get("/.well-known/jwks.json", (req, res) => {
         };
     })
     };
+    //send response as json
     res.json(jwks);
 });
-
+//auth endpoint, both generates and returns a jwt
+//can return a valid JWT with a non-expired key or an expired JWT with an expired key
 app.post("/auth", (req, res) => {
     const wantExpired = req.query.expired === "true";
 
@@ -42,20 +44,20 @@ app.post("/auth", (req, res) => {
     if (!key) {
         return res.status(500).json({error:"No key was found"});
     }
-
+    //payload creation
     const payload = {
         user: "testAccount",
         iat: Math.floor(Date.now()/1000),
         exp: Math.floor(key.expiry/1000)
     };
-
+    // signing of the JWT with the private key
     const token = JWT.sign(payload, key.privateKey, {
         algorithm: "RS256",
         keyid: key.kid,
     });
     res.json({token});
 });
-
+    //server init and listening on port 8080
 if (require.main === module) {
     app.listen(PORT, ()=> {
     console.log("JWKS Server is now running on port 8080");

@@ -28,7 +28,7 @@ keys.push(keyObject);
 
 return keyObject;
 }
-//Creating an expired key and a non expired key...
+//Creating an expired key and a non expired key
 generateKeyPair(false);
 generateKeyPair(true);
 

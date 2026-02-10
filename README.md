@@ -2,9 +2,9 @@
 Restful JWKS server that provides public keys with unique identifiers for verifying JSON Web Tokens.
 
 # Features
-*Implements key expiry for enhanced security
-*Inlucdes an authentication endpoint
-*Handles issuance of JWTs with expired keys based on a query paramter
+* Implements key expiry for enhanced security
+* Inlucdes an authentication endpoint
+* Handles issuance of JWTs with expired keys based on a query paramter
 
 # Requirements
 Node.js 15 or higher
@@ -21,7 +21,7 @@ or
 * To get a valid token
  curl -s -X POST http://localhost:8080/auth | jq
 * To get an expired token
-curl -s -X POST "http://localhost:8080/auth?expired=true" | jq
+ curl -s -X POST "http://localhost:8080/auth?expired=true" | jq
 
 
 

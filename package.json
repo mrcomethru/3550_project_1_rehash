@@ -1,0 +1,26 @@
+{
+  "name": "3550_project_1_rehash",
+  "version": "1.0.0",
+  "description": "Restful JWKS server that provides public keys with unique identifiers for verifying JSON Web Tokens.",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrcomethru/3550_project_1_rehash.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mrcomethru/3550_project_1_rehash/issues"
+  },
+  "homepage": "https://github.com/mrcomethru/3550_project_1_rehash#readme",
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "supertest": "^7.2.2"
+  }
+}
